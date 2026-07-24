@@ -1,0 +1,19 @@
+name: smart-option-page
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        VITE_GITHUB_URL: ${VITE_GITHUB_URL}
+        VITE_BOT_DEMO_URL: ${VITE_BOT_DEMO_URL}
+        VITE_ADMIN_DEMO_URL: ${VITE_ADMIN_DEMO_URL}
+        VITE_LINKEDIN_URL: ${VITE_LINKEDIN_URL}
+        VITE_PORTFOLIO_URL: ${VITE_PORTFOLIO_URL}
+        VITE_DEVELOPER_EMAIL: ${VITE_DEVELOPER_EMAIL}
+        VITE_DEVELOPER_PHOTO_URL: ${VITE_DEVELOPER_PHOTO_URL}
+        VITE_CURRICULUM_API_URL: ${VITE_CURRICULUM_API_URL}
+    restart: unless-stopped
+    ports:
+      - '${APP_PORT}:80'

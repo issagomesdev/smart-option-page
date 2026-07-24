@@ -1,0 +1,14 @@
+# Development image — installs dependencies once at build time; the source itself is bind-mounted
+# by docker-compose.dev.yml, so edits on the host trigger Vite's hot reload inside the container.
+FROM node:22-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+
+# The actual port is never hardcoded here — Vite reads APP_PORT from the environment
+# (see vite.config.ts) and docker-compose.dev.yml publishes that same value.
+CMD ["npm", "run", "dev"]

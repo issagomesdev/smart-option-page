@@ -1,0 +1,20 @@
+name: smart-option-page
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      APP_PORT: ${APP_PORT}
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      # Whole project bind-mounted for hot reload; node_modules stays the one installed inside
+      # the image (an anonymous volume "shadows" the host mount so a Windows/macOS host never
+      # overwrites Linux-built native deps).
+      - .:/app
+      - /app/node_modules

@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+
+/* Self-hosted variable fonts (no external Google Fonts request — better
+   performance/Core Web Vitals, works offline in Docker dev). */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/manrope/wght.css';
+
+@theme {
+  /* Palette */
+  --color-background: #09090b;
+  --color-surface: #111318;
+  --color-border: #23262d;
+  --color-primary: #00d084;
+  --color-telegram: #229ed9;
+  --color-accent: #8b5cf6;
+  --color-foreground: #f8fafc;
+  --color-muted: #94a3b8;
+
+  /* Typography */
+  --font-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-display: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
+
+  /* Motion */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: auto;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings:
+      'ss01' 1,
+      'cv01' 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
+    color: var(--color-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Utility hook Lenis needs on <html>/<body> while it owns scrolling. */
+  .lenis,
+  .lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
+  /* Slow dash drift for the About section's blueprint-line background layer — plain CSS since it
+     animates mask-position, outside what MotionConfig's reducedMotion="user" suppresses. */
+  @keyframes blueprint-drift {
+    from {
+      mask-position-x: 0;
+      -webkit-mask-position-x: 0;
+    }
+    to {
+      mask-position-x: 26px;
+      -webkit-mask-position-x: 26px;
+    }
+  }
+
+  .animate-blueprint-drift {
+    animation: blueprint-drift 80s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blueprint-drift {
+      animation: none;
+    }
+  }
+}
