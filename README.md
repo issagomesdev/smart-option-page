@@ -1,235 +1,255 @@
+<p align="center">
+  <b>🇺🇸 English</b> |
+  <a href="./README.pt-BR.md">🇧🇷 Português</a> |
+  <a href="./README.es.md">🇪🇸 Español</a>
+</p>
+
 # 🌐 Smart Option — Landing Page
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?style=for-the-badge&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white) ![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-0055FF?style=for-the-badge&logo=framer&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 <p align="center">
-  <a href="#sobre">Sobre</a> •
-  <a href="#arquitetura">Arquitetura</a> •
-  <a href="#secoes">Seções</a> •
+  <a href="#about">About</a> •
+  <a href="#architecture">Architecture</a> •
+  <a href="#sections">Sections</a> •
   <a href="#stack">Stack</a> •
-  <a href="#estrutura">Estrutura</a> •
-  <a href="#comecando">Começando</a> •
+  <a href="#structure">Structure</a> •
+  <a href="#getting-started">Getting Started</a> •
   <a href="#docker">Docker</a> •
-  <a href="#ambientes">Variáveis de Ambiente</a> •
+  <a href="#environment">Environment Variables</a> •
   <a href="#scripts">Scripts</a> •
-  <a href="#qualidade">Qualidade de Código</a> •
-  <a href="#related-projects">Projetos Relacionados</a>
+  <a href="#code-quality">Code Quality</a> •
+  <a href="#related-projects">Related Projects</a>
 </p>
 
-> ⚠️ Este projeto é uma peça de **portfólio técnico** — não um produto comercial. O objetivo é demonstrar arquitetura, qualidade de código e experiência de usuário de nível profissional em torno do ecossistema Smart Option.
+> ⚠️ This project is a **technical portfolio** piece — not a commercial product. The goal is to showcase professional-grade architecture, code quality, and user experience around the Smart Option ecosystem.
 
-<h2 id="sobre">📌 Sobre</h2>
+<h2 id="about">📌 About</h2>
 
-Esta é a **landing page** do **Smart Option**, uma plataforma de investimento automatizado composta por **bot do Telegram**, **API REST**, **painel administrativo** e **integração PIX via Asaas**. Em vez de uma página de vendas, esta landing apresenta o projeto como um estudo de caso: arquitetura em camadas, componentização disciplinada e uma experiência visual equivalente à de produtos SaaS de referência (Stripe, Vercel, Linear, Raycast, Clerk).
+**Smart Option** is an **automated investment platform** that combines the convenience of a **Telegram bot** with a dedicated **admin panel** for managing the operation. Integrated with **PIX** through **Asaas**, the platform lets users make **deposits**, purchase **yield plans**, track their **earnings** and **financial transactions**, manage an **affiliate network** with up to **three commission tiers**, and request **withdrawals** — all quickly and without ever leaving **Telegram**.
 
-Este repositório contém **apenas o frontend estático da landing** — não depende do backend, do bot ou do painel em tempo de execução; toda a "demonstração" é recriada visualmente através de mockups (chat do Telegram, pagamento PIX, dashboard administrativo) construídos em React/CSS, sem capturas de tela reais nem dados de usuários de verdade. A única chamada de rede real é a API que alimenta o modal de seleção de currículos.
+This repository holds the official **landing page** for **Smart Option**, built to introduce the platform, what sets it apart, and the experience it offers users. With a strong focus on **design**, **performance**, **responsiveness**, and **user experience**, the app walks through the product's main flows using interactive interfaces, animations, and mockups built in **React** — without depending on the backend or using real data. The only external integration is the API that provides the résumé list shown in the download modal.
 
-### Estado atual
+<h2 id="architecture">🏗️ Frontend Architecture</h2>
 
-- ✅ **Header** — navegação com seção ativa sincronizada por scroll (`IntersectionObserver`), efeito glass ao rolar a página e menu mobile animado em tela cheia
-- ✅ **Hero** — badge, título, diferenciais, CTAs e mockups de celular/PIX/dashboard com camadas de fundo animadas
-- ✅ **Sobre** — diagrama do ecossistema e os principais diferenciais da plataforma
-- ✅ **Funcionalidades** — Telegram Bot, Painel Administrativo e a integração entre os dois
-- ✅ **Arquitetura** — diagrama dos módulos do sistema e a stack utilizada no ecossistema
-- ✅ **Demonstração** — vídeo do projeto em funcionamento + acesso às demos ao vivo do bot e do painel
-- ✅ **Por Trás do Projeto** — apresentação da desenvolvedora, pilares de trabalho e tecnologias
-- ✅ **Contato** — canais de contato e modal de seleção de currículos
-- ✅ **Footer**
+Even as a landing page, this project applies the same care for organization, scalability, and separation of concerns as the rest of the Smart Option ecosystem. The structure is organized by artifact type rather than by page, which favors reuse, maintenance, and continuous evolution.
 
-<h2 id="arquitetura">🏗️ Arquitetura do Frontend</h2>
+### Architectural decisions
 
-Estrutura organizada por tipo de artefato, não por tela — componentes, hooks, constantes, tipos e animações têm cada um seu próprio diretório, e os componentes de UI ficam agrupados por escopo de reuso.
+- **Organized by responsibility:** components, hooks, animations, constants, utilities, types, and assets each get their own directory, reducing coupling and making code easy to find.
+- **Every section is an independent module:** the landing sections (`sections/`) only orchestrate smaller, reusable, single-purpose components, favoring composition over monolithic components.
+- **Decoupled background system:** grids, particles, glows, auroras, blueprints, wireframes, and other visual elements are independent components (`components/background/`), so each section can have its own identity without duplicating code.
+- **Centralized animations:** every animation is defined in a single module (`animations/`), keeping the visuals consistent and avoiding animation logic scattered across components.
+- **Observer-based navigation sync:** the active section is detected with `IntersectionObserver` (`useActiveSection`), which keeps the header and mobile menu in sync automatically — no continuous scroll listeners, and better performance.
+- **Decoupled résumé modal:** the résumé selection flow is split into `services` (requests), `hooks` (state and cache), `components` (UI), and `utils`, so each layer can be tested and evolved independently.
+- **Centralized configuration:** URLs, static content, links, navigation, and other settings live in constants and configuration files, instead of being scattered across the project.
+- **Standalone frontend:** the landing page doesn't depend on the backend, the admin panel, or the bot at runtime. The entire experience is reproduced with React components and hand-built mockups; only the résumé modal makes an HTTP call, to fetch the list of files available for download.
 
-### Princípios arquiteturais
+<h2 id="sections">🧩 Landing Page Sections</h2>
 
-- **Uma composição por seção:** cada seção da landing (`sections/`) monta seu próprio conteúdo, camadas de fundo e animações a partir de peças menores e independentes — nenhum componente "faz tudo".
-- **Camadas de fundo desacopladas:** cada seção tem sua própria composição de camadas decorativas (`components/background/`) — grid, partículas, glow, aurora, blueprint, wireframe, entre outras — combinadas de forma independente por seção.
-- **Currículo como Clean Architecture em miniatura:** o modal de seleção de currículos separa `services/` (fetch puro), `hooks/` (estado + cache em nível de módulo), `components/` (UI) e `utils/`, cada camada testável isoladamente.
-- **Navegação ativa via `IntersectionObserver`:** `useActiveSection` observa todas as seções e sincroniza Header/MobileMenu sem depender de listeners de scroll custosos.
-- **Zero dependência de backend em runtime:** toda a "demonstração" é recriada visualmente em React/CSS; a única integração de rede real é a API de currículos, configurável por variável de ambiente.
+| Section                | Anchor                 | Description                                                                                                                       |
+| ---------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Hero**               | Top of the page        | Platform introduction, value proposition, key differentiators, CTAs, and a visual composition inspired by the product experience. |
+| **About**              | `#sobre`               | Overview of the Smart Option ecosystem, showing how users, the Telegram bot, payments, automations, and the admin panel connect.  |
+| **Features**           | `#funcionalidades`     | A tour of the main capabilities of the Telegram bot, the admin panel, and the integration between all platform modules.           |
+| **Architecture**       | `#arquitetura`         | Ecosystem architecture diagram, the modules that make up the solution, and the technologies used at each layer.                   |
+| **Demo**               | `#demonstracao`        | Video of the project in action, plus links to the public demos of the bot and the admin panel.                                    |
+| **Behind the Project** | `#por-tras-do-projeto` | Introduction to the developer, the development approach, quality principles, technologies, and professional channels.             |
+| **Contact**            | `#contato`             | Contact options, résumé downloads, project repositories, and other professional channels.                                         |
 
-<h2 id="secoes">🧩 Seções da Página</h2>
+> The anchors above are the live URL fragments of the published site, kept in Portuguese in every language version of this document.
 
-| Seção               | Âncora                 | Descrição                                                                                                                                                      |
-| ------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hero                | topo da página         | Badge, título, diferenciais, CTAs e composição de mockups (chat do Telegram, pagamento PIX, dashboard administrativo).                                         |
-| Sobre               | `#sobre`               | Diagrama do ecossistema (Usuário, Telegram, PIX, Painel, Monitoramento, Automação) e 8 diferenciais da plataforma.                                             |
-| Funcionalidades     | `#funcionalidades`     | Três blocos — Telegram Bot, Painel Administrativo e Ecossistema Integrado — cada um com mockup próprio e lista de funcionalidades.                             |
-| Arquitetura         | `#arquitetura`         | Diagrama dos 8 módulos do sistema (Telegram Bot → API → Asaas/Redis/BullMQ → MySQL → Dashboard) e grid com a stack completa do ecossistema.                    |
-| Demonstração        | `#demonstracao`        | Vídeo mostrando o projeto em funcionamento, com estado "Coming Soon" enquanto o vídeo final não é publicado, além dos botões "Demo do Bot" e "Demo do Painel". |
-| Por Trás do Projeto | `#por-tras-do-projeto` | Apresentação da desenvolvedora, 6 pilares de trabalho, principais tecnologias, filosofia de desenvolvimento e redes sociais.                                   |
-| Contato             | `#contato`             | Cards de contato (email, LinkedIn, GitHub, portfólio, currículo) e CTAs para o repositório e o LinkedIn.                                                       |
+### Shared resources
 
-**Recursos transversais:**
-
-- **Modal de Currículo** — carregado sob demanda (lazy) apenas no primeiro clique em qualquer botão "Currículo"; busca a lista de currículos de uma API configurável, com cache em nível de módulo e focus trap para acessibilidade.
-- **Footer** — navegação e redes sociais, reaproveitando os mesmos links configurados por variável de ambiente.
+- **Résumé modal** — lazy-loaded, fetches the available résumés from an API, keeps an in-memory cache, and implements accessibility features such as focus trap and keyboard navigation.
+- **Header** — navigation that stays in sync with the section currently in view, including a responsive menu and active-section highlighting.
+- **Footer** — supporting navigation, social links, and access to the related projects in the Smart Option ecosystem.
 
 <h2 id="stack">🛠️ Stack</h2>
 
-| Categoria          | Tecnologias                                                                                                                                                                                                  |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Framework**      | [React 19](https://react.dev/), [TypeScript 6](https://www.typescriptlang.org/)                                                                                                                              |
-| **Build**          | [Vite 8](https://vite.dev/) (`@vitejs/plugin-react`)                                                                                                                                                         |
-| **Estilo**         | [Tailwind CSS 4](https://tailwindcss.com/) (config CSS-first via `@theme`, sem `tailwind.config.js`)                                                                                                         |
-| **Animação**       | [Framer Motion](https://motion.dev/) (entradas, hover, tilt por ponteiro, `prefers-reduced-motion` global)                                                                                                   |
-| **Scroll**         | [Lenis](https://lenis.darkroom.engineering/) (rolagem suave, desativada automaticamente quando o visitante prefere menos movimento)                                                                          |
-| **Ícones**         | [Lucide React](https://lucide.dev/)                                                                                                                                                                          |
-| **Fontes**         | [Inter](https://fonts.google.com/specimen/Inter) + [Manrope](https://fonts.google.com/specimen/Manrope) — variable fonts auto-hospedadas via `@fontsource-variable` (sem requisição externa ao Google Fonts) |
-| **Qualidade**      | ESLint (flat config + `typescript-eslint` + regras do React Compiler via `eslint-plugin-react-hooks`), Prettier, Husky + lint-staged                                                                         |
-| **Infraestrutura** | Docker multi-stage, Docker Compose, Nginx (produção)                                                                                                                                                         |
+| Category                 | Technologies                                                                                                                           |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Framework**            | [React 19](https://react.dev/) + [TypeScript 5](https://www.typescriptlang.org/)                                                       |
+| **Build**                | [Vite](https://vite.dev/)                                                                                                              |
+| **Styling**              | [Tailwind CSS 4](https://tailwindcss.com/)                                                                                             |
+| **Animations**           | [Framer Motion](https://motion.dev/)                                                                                                   |
+| **Scrolling experience** | [Lenis](https://lenis.darkroom.engineering/) (smooth scrolling)                                                                        |
+| **Icons**                | [Lucide React](https://lucide.dev/)                                                                                                    |
+| **Typography**           | [Inter](https://fonts.google.com/specimen/Inter) and [Manrope](https://fonts.google.com/specimen/Manrope) (self-hosted variable fonts) |
+| **Code quality**         | ESLint, Prettier, Husky, and lint-staged                                                                                               |
+| **Infrastructure**       | Multi-stage Docker, Docker Compose, and Nginx                                                                                          |
 
-<h2 id="estrutura">📁 Estrutura</h2>
+<h2 id="structure">📁 Structure</h2>
 
 ```text
 src/
-├─ app/                    # Composição raiz (App.tsx, Providers — Lenis + MotionConfig)
-├─ sections/                # Uma composição por seção da landing (Hero, About, Features, Architecture, Demo, Developer, Contact)
+├─ app/                      # Application root composition (Providers and App)
+├─ sections/                 # Landing page sections
 │
 ├─ components/
-│  ├─ ui/                  # Átomos reutilizáveis (Button, Badge, Chip, AnimatedCard, ícones de marca)
-│  ├─ layout/              # Header, MobileMenu, Footer, Logo, Container
-│  ├─ background/          # ~30 camadas decorativas independentes, combinadas por seção (grid, partículas, glow, aurora, blueprint, wireframe...)
-│  ├─ hero/                # Mockups de celular/PIX/dashboard e telas do chat do Telegram
-│  ├─ about/                # EcosystemDiagram, FeatureCard, AboutContent
-│  ├─ features/             # Blocos Telegram Bot / Painel / Ecossistema + mockups
-│  ├─ architecture/         # Diagrama de arquitetura (desktop + mobile), ModuleCard, TechStackGrid
-│  ├─ demo/                 # VideoPlayer, DemoContent
-│  ├─ developer/            # Foto, pilares, tech grid, filosofia, redes sociais
-│  ├─ contact/               # Cards de contato
-│  ├─ curriculum/            # Modal de seleção de currículos
-│  └─ common/                 # Reveal — wrapper de entrada animada reutilizado por toda seção
+│  ├─ ui/                    # Reusable UI components
+│  ├─ layout/                # Header, Footer, Logo, Container, and navigation
+│  ├─ background/            # Reusable visual layers (grid, glow, aurora, particles, blueprint...)
+│  ├─ hero/                  # Hero mockups and components
+│  ├─ about/                 # About section components
+│  ├─ features/              # Features section components
+│  ├─ architecture/          # Architecture section diagrams and components
+│  ├─ demo/                  # Video and demos
+│  ├─ developer/             # Behind the Project section components
+│  ├─ contact/               # Contact cards and details
+│  ├─ curriculum/            # Résumé selection modal
+│  └─ common/                # Shared components
 │
-├─ hooks/                    # useActiveSection, useCurriculumModal, useCurriculums, useFocusTrap, useInterval, useLenis, usePointerTilt, useScrolled, useViewportTier
-├─ services/                  # curriculum.service.ts — client HTTP puro (fetch), sem estado
-├─ lib/                        # lenis.ts — configuração/instanciação do Lenis (sem React)
-├─ animations/                 # variants.ts — variants do Framer Motion reutilizados
-├─ constants/                   # Copy e conteúdo de cada seção
-├─ types/                        # Tipos compartilhados por domínio
-├─ utils/                         # cn, formatação de data, nome de currículo
-├─ styles/globals.css              # Import do Tailwind, tokens de tema (`@theme`), estilos base
-└─ assets/                          # Imagens/ícones estáticos
+├─ hooks/                    # Custom hooks
+├─ services/                 # External API communication
+├─ lib/                      # Shared libraries and initialization
+├─ animations/               # Framer Motion variants and helpers
+├─ constants/                # Application content and configuration
+├─ types/                    # Shared types
+├─ utils/                    # Utility functions
+├─ styles/                   # Global styles and theme tokens
+└─ assets/                   # Static assets
 ```
 
-<h2 id="comecando">▶️ Começando</h2>
+<h2 id="getting-started">▶️ Getting Started</h2>
 
-### Pré-requisitos
+### Requirements
 
-- Node.js **22+** (necessário só para rodar fora do Docker)
-- Docker + Docker Compose (caminho recomendado)
+- **Node.js 22+** (only for running locally)
+- **Docker** and **Docker Compose** (recommended)
 
-### Com Docker (recomendado)
+### Running with Docker
 
 ```bash
-git clone <url-do-repositorio> smart-option-page
+git clone <repository-url> smart-option-page
 cd smart-option-page
 
 cp .env.example .env
+
 npm run docker:up
 ```
 
-A aplicação sobe em `http://localhost:3002` (ou na porta definida em `APP_PORT` no `.env`), com hot reload — qualquer alteração em `src/` reflete no navegador sem rebuild da imagem.
+The app will be available at:
 
-Para encerrar:
+```text
+http://localhost:3002
+```
+
+> You can change the port through the `APP_PORT` variable in the `.env` file.
+
+The environment ships with **hot reload**, so changes under `src/` show up automatically.
+
+To stop the containers:
 
 ```bash
 npm run docker:down
 ```
 
-### Sem Docker
+### Running locally
 
 ```bash
-git clone <url-do-repositorio> smart-option-page
+git clone <repository-url> smart-option-page
 cd smart-option-page
 
-npm install
 cp .env.example .env
 
+npm install
 npm run dev
 ```
 
 <h2 id="docker">🐳 Docker</h2>
 
-O projeto tem imagens **separadas para desenvolvimento e produção** — não é a mesma imagem com variáveis diferentes.
+The project has separate environments for **development** and **production**, each tuned for its purpose.
 
-| Arquivo                   | Propósito                                                                                                                                                                                                        |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Dockerfile.dev`          | Instala dependências e roda `vite` diretamente; o código-fonte é montado via bind mount pelo `docker-compose.dev.yml` para hot reload.                                                                           |
-| `Dockerfile.prod`         | Build multi-stage: compila o bundle estático (`npm run build`) num estágio com Node.js e o serve a partir de um **Nginx Alpine** mínimo — a imagem final não contém Node.js, código-fonte nem `devDependencies`. |
-| `docker-compose.dev.yml`  | Sobe o app em modo desenvolvimento, porta publicada a partir de `APP_PORT`.                                                                                                                                      |
-| `docker-compose.prod.yml` | Builda a imagem de produção (repassando as variáveis `VITE_*` como build args, já que o Vite as embute no bundle em tempo de build) e publica `APP_PORT` mapeado para a porta 80 do Nginx.                       |
+| File                      | Description                                                                         |
+| ------------------------- | ----------------------------------------------------------------------------------- |
+| `Dockerfile.dev`          | Development environment with hot reload through Vite.                               |
+| `Dockerfile.prod`         | Optimized multi-stage build for production, serving the static files through Nginx. |
+| `docker-compose.dev.yml`  | Starts the development environment.                                                 |
+| `docker-compose.prod.yml` | Starts the production build of the application.                                     |
+
+### Development
 
 ```bash
-# Desenvolvimento
-npm run docker:up      # sobe com hot reload
-npm run docker:down    # encerra
+npm run docker:up
+```
 
-# Produção (build local da imagem final)
+To stop it:
+
+```bash
+npm run docker:down
+```
+
+### Production
+
+```bash
 npm run docker:build
+
 docker compose -f docker-compose.prod.yml up -d
 ```
 
-A porta nunca é fixa no código — tanto o Vite (dev/preview) quanto o mapeamento de portas do Compose leem `APP_PORT` do `.env`. O `Dockerfile.prod` expõe um endpoint `/health` (usado pelo `HEALTHCHECK` da imagem) e aplica cache de longa duração para os assets com hash gerados pelo build, mantendo `index.html` sempre revalidado.
+The port used by the application is set through the `APP_PORT` variable, so you can change environments without touching the source code.
 
-<h2 id="ambientes">⚙️ Variáveis de Ambiente</h2>
+<h2 id="environment">⚙️ Environment Variables</h2>
 
-[.env.example](.env.example) é o único arquivo de referência — reúne todas as variáveis com valores sugeridos e, nos comentários, o que muda entre desenvolvimento e produção (hoje, só `APP_PORT`). Copie para `.env` em qualquer um dos dois ambientes:
+Every variable needed to run the application is documented in **`.env.example`**.
 
 ```bash
 cp .env.example .env
 ```
 
-| Variável                   | Descrição                                                                                                        |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `APP_PORT`                 | Porta do servidor Vite (dev/preview) e porta publicada pelo Docker Compose. Nunca hardcoded.                     |
-| `VITE_GITHUB_URL`          | URL do repositório exibida no botão "GitHub" da Hero e nas seções Contato / Por Trás do Projeto.                 |
-| `VITE_BOT_DEMO_URL`        | Link do bot do Telegram, usado pelo botão "Demo do Bot" do Header e da seção Demonstração.                       |
-| `VITE_ADMIN_DEMO_URL`      | URL do painel administrativo, usado pelo botão "Demo do Painel" do Header e da seção Demonstração.               |
-| `VITE_LINKEDIN_URL`        | Perfil do LinkedIn exibido em Por Trás do Projeto e no Footer.                                                   |
-| `VITE_PORTFOLIO_URL`       | URL do portfólio pessoal exibida em Por Trás do Projeto, Contato e no Footer.                                    |
-| `VITE_DEVELOPER_EMAIL`     | Email de contato exibido em Por Trás do Projeto e Contato.                                                       |
-| `VITE_DEVELOPER_PHOTO_URL` | Foto da desenvolvedora em Por Trás do Projeto. Em branco mantém o placeholder ("Foto em breve").                 |
-| `VITE_CURRICULUM_API_URL`  | Endpoint que alimenta o modal de seleção de currículos (botões "Currículo" do Contato e de Por Trás do Projeto). |
+| Variable                   | Description                                                        |
+| -------------------------- | ------------------------------------------------------------------ |
+| `APP_PORT`                 | Port used by the development server and the Docker containers.     |
+| `VITE_GITHUB_URL`          | Project repository shown in the UI.                                |
+| `VITE_BOT_DEMO_URL`        | Link to the Telegram bot demo.                                     |
+| `VITE_ADMIN_DEMO_URL`      | Link to the admin panel demo.                                      |
+| `VITE_LINKEDIN_URL`        | The developer's LinkedIn profile.                                  |
+| `VITE_PORTFOLIO_URL`       | Link to the personal portfolio.                                    |
+| `VITE_DEVELOPER_EMAIL`     | Email address shown in the contact section.                        |
+| `VITE_DEVELOPER_PHOTO_URL` | Photo used in the "Behind the Project" section.                    |
+| `VITE_CURRICULUM_API_URL`  | Endpoint that provides the list of résumés available for download. |
 
-Todas com prefixo `VITE_` obrigatório — é a convenção do Vite para expor uma variável ao código do navegador.
-
-> Variáveis sem o prefixo `VITE_` (como `APP_PORT`) só existem no `vite.config.ts` (Node/build-time) — nunca chegam ao bundle do navegador.
+> **Note**
+>
+> Vite only exposes variables prefixed with **`VITE_`** to the frontend. Variables without that prefix stay available only during the build process or in the server configuration — which is the case for `APP_PORT`.
 
 <h2 id="scripts">📜 Scripts</h2>
 
-| Script                 | Descrição                                               |
+| Script                 | Description                                             |
 | ---------------------- | ------------------------------------------------------- |
-| `npm run dev`          | Inicia o servidor de desenvolvimento (Vite).            |
-| `npm run build`        | Verifica tipos (`tsc -b`) e gera o build de produção.   |
-| `npm run preview`      | Serve o build de produção localmente, para conferência. |
-| `npm run docker:up`    | Sobe o ambiente de desenvolvimento via Docker Compose.  |
-| `npm run docker:down`  | Encerra os containers de desenvolvimento.               |
-| `npm run docker:build` | Builda a imagem de produção via Docker Compose.         |
-| `npm run lint`         | Analisa o código com ESLint.                            |
-| `npm run lint:fix`     | Corrige automaticamente o que for possível.             |
-| `npm run format`       | Formata o projeto inteiro com Prettier.                 |
-| `npm run format:check` | Verifica formatação sem alterar arquivos (usado em CI). |
-| `npm run typecheck`    | Verificação de tipos isolada, sem gerar build.          |
+| `npm run dev`          | Starts the development environment.                     |
+| `npm run build`        | Runs the type check and generates the production build. |
+| `npm run preview`      | Serves the production build locally.                    |
+| `npm run docker:up`    | Starts the development environment with Docker Compose. |
+| `npm run docker:down`  | Stops the development containers.                       |
+| `npm run docker:build` | Builds the production-optimized Docker image.           |
+| `npm run lint`         | Runs static analysis with ESLint.                       |
+| `npm run lint:fix`     | Auto-fixes the issues ESLint can resolve.               |
+| `npm run format`       | Formats the whole project with Prettier.                |
+| `npm run format:check` | Checks formatting without modifying files.              |
+| `npm run typecheck`    | Runs the TypeScript type check only.                    |
 
-Todos os scripts usam apenas comandos Node/CLI multiplataforma (`vite`, `tsc`, `eslint`, `prettier`, `docker compose`) — nenhum depende de sintaxe de shell específica, então funcionam de forma idêntica no Windows, Linux e macOS.
+> Every script relies on cross-platform tooling (`Vite`, `TypeScript`, `ESLint`, `Prettier`, and `Docker Compose`), so behavior is identical on **Windows**, **Linux**, and **macOS**.
 
-<h2 id="qualidade">✅ Qualidade de Código</h2>
+<h2 id="code-quality">✅ Code Quality</h2>
 
-- **ESLint** (flat config) com `typescript-eslint`, as regras de Hooks/React Compiler de `eslint-plugin-react-hooks` (inclui checagens de pureza, imutabilidade e uso correto de memoização) e `eslint-plugin-react-refresh`; `eslint-config-prettier` desliga qualquer regra de estilo que colidiria com o Prettier.
-- **Prettier** cuida de 100% da formatação — sem aspas/ponto-e-vírgula/trailing comma decididos manualmente.
-- **Husky + lint-staged**: todo commit roda ESLint (com `--fix`) e Prettier apenas nos arquivos staged, nunca no repositório inteiro.
-- **TypeScript estrito**: `noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch` habilitados; path alias `@/*` aponta para `src/*`.
-- **Responsabilidade única por componente**: nenhum componente "faz tudo" — cada uma das sete seções da landing é a composição de várias peças independentes (conteúdo, camadas de fundo, mockups), cada uma testável e substituível isoladamente.
-- **Acessibilidade**: navegação por teclado (`Escape` fecha o menu mobile e o modal de Currículo, foco visível em todo elemento interativo, focus trap no modal), `aria-label`/`aria-hidden` corretos, contraste AA na paleta escura, e toda animação passa pelo `<MotionConfig reducedMotion="user">` do Framer Motion — quando o visitante prefere menos movimento, isso é respeitado globalmente, sem precisar de checagem manual em cada componente.
-- **Performance**: fontes auto-hospedadas (sem requisição externa bloqueante), ícones importados individualmente (tree-shaking via `lucide-react`), animações contínuas usam `transform`/`opacity` (aceleradas por GPU, nunca propriedades que disparam layout), listas com posições pseudo-aleatórias são geradas de forma determinística e memoizadas, navegação ativa via `IntersectionObserver` (sem scroll listeners custosos), e o modal de Currículo carrega seu próprio chunk sob demanda, apenas no primeiro clique.
+The project was built with **readability**, **maintainability**, **performance**, **accessibility**, and **visual consistency** in mind, following modern React best practices.
 
-<h2 id="related-projects">🔗 Projetos Relacionados</h2>
+- **Static analysis:** ESLint (flat config) with `typescript-eslint`, React Hooks/React Compiler rules, and Prettier integration to keep the codebase consistent.
+- **Automatic formatting:** all formatting is centralized in Prettier, removing style differences between contributions.
+- **Git hooks:** Husky and lint-staged run ESLint and Prettier automatically, on changed files only, before each commit.
+- **Strict TypeScript:** rigorous typing, import aliases, and extra checks to catch errors during development.
+- **Composition-based architecture:** each landing section is made of small, reusable, single-purpose components, favoring low coupling and independent evolution.
+- **Accessibility:** full keyboard navigation, focus management, ARIA attributes, proper contrast, and respect for the user's reduced-motion preference.
+- **Performance:** lazy loading, self-hosted fonts, icon tree-shaking, GPU-accelerated animations, `IntersectionObserver`-based navigation, and optimized renders to avoid unnecessary work.
+- **User experience:** smooth animations, a fully responsive interface, consistent transitions, and uniform behavior across devices and screen sizes.
 
-| Projeto                  | Descrição                                                                                                                        | Repositório                                        |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| ⚙️ Backend (API + Bot)   | API e bot do Telegram responsáveis pelas regras de negócio, autenticação, pagamentos, notificações e integrações do ecossistema. | https://github.com/issagomesdev/smart-option       |
-| 📊 Painel Administrativo | Painel usado pela equipe para gerenciar usuários, aprovar solicitações financeiras e acompanhar a rede de afiliados.             | https://github.com/issagomesdev/smart-option-admin |
+<h2 id="related-projects">🔗 Related Projects</h2>
 
----
+**Smart Option** was built as an ecosystem of independent applications, each with a clear responsibility. Splitting it across repositories keeps things organized, makes parallel development easier, and results in a more modular, scalable architecture.
 
-<p align="center">Construído como demonstração técnica do ecossistema <a href="https://github.com/issagomesdev/smart-option">Smart Option</a>.</p>
+| Project                   | Description                                                                                                                            | GitHub                                             |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| ⚙️ Backend (API + Bot)    | The API and Telegram bot behind the business rules, authentication, payments, notifications, and integrations used by the admin panel. | https://github.com/issagomesdev/smart-option       |
+| 👑 Admin Panel (Frontend) | The administrative interface for managing the Smart Option platform.                                                                   | https://github.com/issagomesdev/smart-option-admin |

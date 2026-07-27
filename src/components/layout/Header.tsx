@@ -32,8 +32,11 @@ export function Header() {
       )}
     >
       <Container>
-        <div className="flex h-16 items-center justify-between gap-4 sm:h-[4.5rem] xl:gap-8">
-          <Logo />
+        <div className="flex h-16 items-center justify-between gap-4 sm:h-[5.5rem] xl:gap-8">
+          <Logo
+            variant="brain_mark"
+            className="flex w-15 shrink-0 items-center justify-center lg:w-60 xl:w-60"
+          />
 
           <nav
             aria-label="Principal"

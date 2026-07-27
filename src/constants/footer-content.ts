@@ -12,7 +12,7 @@ export interface FooterSocialLink {
 }
 
 export const FOOTER_DESCRIPTION =
-  'Plataforma financeira automatizada desenvolvida como projeto de portfólio.'
+  'Uma solução financeira moderna que centraliza operações, automatiza processos e oferece uma experiência simples para usuários e administradores.'
 
 export const FOOTER_NAV_TITLE = 'Navegação'
 export const FOOTER_SOCIAL_TITLE = 'Redes'

@@ -51,8 +51,13 @@ export function Footer() {
       <Container className="relative z-10">
         <div className="grid gap-12 py-16 sm:py-20 lg:grid-cols-[1.3fr_1fr_1fr] lg:gap-8">
           <div>
-            <Logo />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">{FOOTER_DESCRIPTION}</p>
+            <div className="w-50 h-40">
+              <Logo
+                variant="concept_mark"
+                className="flex w-full shrink-0 items-center justify-center bg-cover"
+              />
+            </div>
+            <p className="max-w-xs text-sm leading-relaxed text-muted">{FOOTER_DESCRIPTION}</p>
           </div>
 
           <nav aria-label={FOOTER_NAV_TITLE}>
