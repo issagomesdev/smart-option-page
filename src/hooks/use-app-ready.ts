@@ -17,7 +17,7 @@ interface UseAppReadyOptions {
  * `LoadingProgress` is tuned against this value: its fill should still be in motion at the moment
  * of exit, so shortening this without shortening the fill would leave the bar sitting at 100%.
  */
-const DEFAULT_MIN_DURATION_MS = 5000
+const DEFAULT_MIN_DURATION_MS = 4000
 
 /**
  * The brand mark and the variable fonts come off the network, so `load` can hang on a slow or
