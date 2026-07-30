@@ -8,8 +8,6 @@ import {
   DatabaseZap,
   FileCode2,
   FileText,
-  GitBranch,
-  GitCommit,
   Globe,
   HardDrive,
   KeyRound,

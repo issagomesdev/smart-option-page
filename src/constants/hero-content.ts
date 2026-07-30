@@ -1,13 +1,4 @@
-import {
-  LayoutDashboard,
-  Server,
-  Bot,
-  QrCode,
-  Landmark,
-  PlayCircle,
-  Users,
-  Wallet,
-} from 'lucide-react'
+import { LayoutDashboard, Bot, QrCode, PlayCircle, Users, Wallet } from 'lucide-react'
 import type { DifferentiatorItem } from '@/types/tech'
 import type { HeroTitleSegment } from '@/types/hero'
 

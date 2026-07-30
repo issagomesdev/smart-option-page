@@ -3,6 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/webp" href="/favicon.webp" />
+
+    <!-- The brand mark is the first thing the loading screen paints, and it comes off a CDN. Warming
+         the connection and fetching it during HTML parse means it is already there when React
+         mounts, instead of leaving a gap in the middle of the splash. -->
+    <link rel="preconnect" href="https://media.byissa.dev" crossorigin />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      fetchpriority="high"
+      href="https://media.byissa.dev/smart-option/brain_mark.webp"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#09090b" />
     <meta

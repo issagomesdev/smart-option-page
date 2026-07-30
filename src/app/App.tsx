@@ -9,7 +9,9 @@ import { ArchitectureSection } from '@/sections/ArchitectureSection'
 import { DemoSection } from '@/sections/DemoSection'
 import { DeveloperSection } from '@/sections/DeveloperSection'
 import { ContactSection } from '@/sections/ContactSection'
+import { LoadingScreen } from '@/components/loading'
 import { useCurriculumModal } from '@/hooks/use-curriculum-modal'
+import { useAppReady } from '@/hooks/use-app-ready'
 
 const CurriculumModal = lazy(() =>
   import('@/components/curriculum/CurriculumModal').then((module) => ({
@@ -20,9 +22,13 @@ const CurriculumModal = lazy(() =>
 /** Root component — Header, every landing section, the Footer, and the résumé modal. */
 export function App() {
   const { hasOpenedOnce } = useCurriculumModal()
+  const isReady = useAppReady()
 
   return (
     <Providers>
+      {/* Covers the landing until fonts and images have settled, then dissolves off it. The whole
+          tree still mounts underneath meanwhile, so nothing is waiting on the splash to start. */}
+      <LoadingScreen isVisible={!isReady} />
       <Header />
       <main>
         <HeroSection />

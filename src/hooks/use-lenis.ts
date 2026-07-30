@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { createSmoothScroll } from '@/lib/lenis'
+import { createSmoothScroll, destroySmoothScroll } from '@/lib/lenis'
 
 /**
  * Wires up Lenis smooth scrolling for the app's lifetime. Skipped entirely when the visitor
@@ -21,7 +21,9 @@ export function useLenis(): void {
 
     return () => {
       cancelAnimationFrame(frameId)
-      lenis.destroy()
+      // Goes through the module so the shared reference is cleared too — a stale instance would
+      // make a later scroll lock try to pause something that no longer drives the page.
+      destroySmoothScroll()
     }
   }, [])
 }

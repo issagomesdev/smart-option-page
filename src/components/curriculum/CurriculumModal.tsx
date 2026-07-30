@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import { useCurriculumModal } from '@/hooks/use-curriculum-modal'
 import { useCurriculums } from '@/hooks/use-curriculums'
 import { useFocusTrap } from '@/hooks/use-focus-trap'
+import { useScrollLock } from '@/hooks/use-scroll-lock'
 import { CurriculumItem } from '@/components/curriculum/CurriculumItem'
 import { staggerContainer, fadeInUp } from '@/animations/variants'
 
@@ -42,6 +43,8 @@ export function CurriculumModal() {
     if (isOpen) load()
   }, [isOpen, load])
 
+  useScrollLock(isOpen)
+
   useEffect(() => {
     if (!isOpen) return
 
@@ -49,10 +52,8 @@ export function CurriculumModal() {
       if (event.key === 'Escape') close()
     }
 
-    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleKeyDown)
     return () => {
-      document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, close])
