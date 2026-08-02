@@ -51,16 +51,16 @@ export function AdminDashboardMockup() {
     <motion.div animate={floatLoopDelayed} className="w-full max-w-2xl">
       <div className="rounded-t-2xl border border-b-0 border-border bg-surface/90 p-px shadow-[0_40px_100px_-24px_rgba(0,0,0,0.7)]">
         <div className="rounded-t-[0.9rem] bg-[#0c0e12]">
-          <div className="flex items-center gap-1.5 px-5 py-3">
+          <div className="flex items-center gap-1.5 px-4 py-3 sm:px-5">
             <span className="size-2.5 rounded-full bg-[#ff5f57]" />
             <span className="size-2.5 rounded-full bg-[#febc2e]" />
             <span className="size-2.5 rounded-full bg-[#28c840]" />
-            <span className="ml-3 text-xs font-medium text-muted">
+            <span className="ml-3 truncate text-xs font-medium text-muted">
               Smart Option — Painel Administrativo
             </span>
           </div>
 
-          <div className="flex flex-col gap-4 px-6 pb-6">
+          <div className="flex flex-col gap-3.5 px-4 pb-5 sm:gap-4 sm:px-6 sm:pb-6">
             <div className="flex items-center justify-between gap-3">
               <div className="flex gap-1.5">
                 {FILTERS.map((filter, index) => (
@@ -93,8 +93,8 @@ export function AdminDashboardMockup() {
               ))}
             </div>
 
-            <div className="grid grid-cols-5 gap-3">
-              <div className="col-span-3 rounded-xl border border-border bg-surface/60 p-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-5">
+              <div className="min-w-0 rounded-xl border border-border bg-surface/60 p-3 sm:col-span-3 sm:p-4">
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-medium text-muted">Rentabilidade da rede</p>
                   <span className="flex items-center gap-0.5 text-[10px] font-semibold text-primary">
@@ -132,7 +132,7 @@ export function AdminDashboardMockup() {
                 </svg>
               </div>
 
-              <div className="col-span-2 flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-surface/60 p-4">
+              <div className="flex min-w-0 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-surface/60 p-3 sm:col-span-2 sm:p-4">
                 <div className="relative flex size-16 items-center justify-center rounded-full border-[5px] border-primary/20">
                   <motion.div
                     className="absolute inset-0 rounded-full border-[5px] border-transparent border-t-primary"
@@ -146,8 +146,8 @@ export function AdminDashboardMockup() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-border bg-surface/60 p-4">
-              <div className="mb-2.5 flex items-center justify-between">
+            <div className="rounded-xl border border-border bg-surface/60 p-3 sm:p-4">
+              <div className="mb-2.5 flex items-center justify-between gap-2">
                 <p className="text-xs font-medium text-muted">Movimentações recentes</p>
                 <span className="text-[10px] font-medium text-primary">Ver todas</span>
               </div>
@@ -165,7 +165,7 @@ export function AdminDashboardMockup() {
                     >
                       {row.status}
                     </span>
-                    <span className="w-20 shrink-0 text-right font-semibold text-foreground/80">
+                    <span className="w-[4.5rem] shrink-0 text-right font-semibold text-foreground/80 sm:w-20">
                       {row.value}
                     </span>
                   </div>

@@ -42,10 +42,15 @@ export function FeatureBlockPanel() {
 
       <Container className="relative z-10">
         <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-16">
+          {/* `min-w-0`: itens de grid têm `min-width: auto`, então esta célula se recusava a
+              encolher abaixo do min-content do mockup e o estourava para fora da tela em
+              telas estreitas (366px dentro de uma célula de 312px, cortados pelo
+              `overflow-hidden` da seção). Com o piso liberado, o `w-full` do mockup passa a
+              valer de verdade. O padding extra dá respiro nas bordas no celular. */}
           <Reveal
             variants={scaleIn}
             mode="viewport"
-            className="flex justify-center lg:justify-start"
+            className="flex min-w-0 justify-center px-1 sm:px-0 lg:justify-start"
           >
             <AdminDashboardMockup />
           </Reveal>
