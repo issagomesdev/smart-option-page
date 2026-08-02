@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LayoutDashboard, Send, X } from 'lucide-react'
 import { NAV_LINKS } from '@/constants/navigation'
 import { Button } from '@/components/ui/Button'
 import { staggerContainer, fadeInUp } from '@/animations/variants'
+import { useScrollLock } from '@/hooks/use-scroll-lock'
 import { cn } from '@/utils/cn'
 
 const BOT_DEMO_URL = import.meta.env.VITE_BOT_DEMO_URL
@@ -18,6 +20,10 @@ interface MobileMenuProps {
 
 /** Full-screen animated menu — deliberately not a plain side drawer. */
 export function MobileMenu({ open, onClose, activeId, onNavigate }: MobileMenuProps) {
+  // `overflow: hidden` sozinho não segura o Lenis, que rola via `window.scrollTo` — sem isto a
+  // página deslizava por trás do menu aberto. O hook trata as duas coisas.
+  useScrollLock(open)
+
   useEffect(() => {
     if (!open) return
 
@@ -25,15 +31,21 @@ export function MobileMenu({ open, onClose, activeId, onNavigate }: MobileMenuPr
       if (event.key === 'Escape') onClose()
     }
 
-    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleKeyDown)
     return () => {
-      document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [open, onClose])
 
-  return (
+  // Renderizado no `body`, fora do `<header>` que o contém no JSX.
+  //
+  // `backdrop-filter` estabelece um containing block para descendentes `position: fixed`, e o
+  // header ganha `backdrop-blur-xl` assim que a página rola. Dentro dele, o `fixed inset-0` deste
+  // overlay passava a se resolver contra a caixa do header em vez da viewport: 390x64 em vez de
+  // 390x844 (medido). Quem abrisse o menu sem ter rolado via o fundo correto; quem rolasse antes,
+  // não — o que dava a impressão de ser um problema de dispositivo. O portal torna o overlay imune
+  // a qualquer filtro, transform ou `contain` que venha a existir num ancestral.
+  return createPortal(
     <AnimatePresence>
       {open && (
         <motion.div
@@ -124,6 +136,7 @@ export function MobileMenu({ open, onClose, activeId, onNavigate }: MobileMenuPr
           </motion.nav>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }
